@@ -48,11 +48,11 @@ const groupFiles = (
                 fullName: string,
                 splittedName: string[],
             }) => 
-            {
-                group[notTopLevelFile.splittedName[0]] = group[notTopLevelFile.splittedName[0]] || [];
-                group[notTopLevelFile.splittedName[0]].push({
-                    ...notTopLevelFile.file,
-                    fullname: notTopLevelFile.file.fullname.replace(`${notTopLevelFile.splittedName[0]}/`, ""),
-                });
-                return group;
-            }, {});
+        {
+            group[notTopLevelFile.splittedName[0]] = group[notTopLevelFile.splittedName[0]] || [];
+            group[notTopLevelFile.splittedName[0]].push({
+                ...notTopLevelFile.file,
+                fullname: notTopLevelFile.file.fullname.replace(`${notTopLevelFile.splittedName[0]}/`, ""),
+            });
+            return group;
+        }, {});
