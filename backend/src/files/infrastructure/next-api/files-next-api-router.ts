@@ -11,9 +11,9 @@ export class FilesNextApiRouter implements NextApiHandler {
     private readonly getHandler: NextApiHandler;
     private readonly postHandler: NextApiHandler;
 
-    constructor({listAllUserFiles}: FilesUseCases) {
+    constructor({listAllUserFiles, uploadFiles}: FilesUseCases) {
         this.getHandler = new FilesNextApiGetHandler(listAllUserFiles);
-        this.postHandler = new FilesNextApiPostHandler();
+        this.postHandler = new FilesNextApiPostHandler(uploadFiles);
     }
 
     async handle(request: NextApiRequest, response: NextApiResponse): Promise<void> {

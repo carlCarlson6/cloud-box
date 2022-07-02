@@ -7,5 +7,5 @@ export type File = {
     size: Size,
     name: string,
     extension: string
-    fullname: string
+    path: string
 }

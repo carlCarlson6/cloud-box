@@ -7,7 +7,7 @@ export default (blob: BlobItem): File => ({
     lastModifiedOn: blob.properties.lastModified,
     contentType: blob.properties.contentType!,
     size: new Size(blob.properties.contentLength!),
-    fullname: blob.name,
+    path: blob.name,
     extension: blob.name.split(".").at(-1) || "",
-    name: blob.name.split("/").at(-1) || ""
+    name: blob.name,
 });

@@ -9,9 +9,7 @@ export class ListAllUserFiles implements UseCase<ListAllUserFilesQuery, Promise<
     ) { }
     
     async execute(input: ListAllUserFilesQuery): Promise<TreeView> {
-        console.log("executing use case");
         const files = await this.fileManager.listAllUserFiles(input.user.userIdentifier);
-        const treeView = buildTreeView(files);
         return buildTreeView(files);
     }
 }

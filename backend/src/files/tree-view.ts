@@ -12,12 +12,13 @@ export const buildTreeView = (files: File[]): TreeView => {
 
     const splittedNames = files.map(file => ({
         file: file,
-        fullName: file.fullname,
-        splittedName: file.fullname.split("/")
+        name: file.name,
+        splittedName: file.name.split("/")
     }));
     
     const topLevelFiles = splittedNames.filter(x => x.splittedName.length == 1);
-    elements["."] = topLevelFiles.map(x => x.file);
+    if (topLevelFiles.length !== 0)
+        elements["."] = topLevelFiles.map(x => x.file);
 
     const grouped = groupFiles(splittedNames);
     let groupsCount = 0;
@@ -36,7 +37,7 @@ export const buildTreeView = (files: File[]): TreeView => {
 const groupFiles = (
     splittedNames: {
         file: File;
-        fullName: string;
+        name: string;
         splittedName: string[];
         }[]
     ) => splittedNames
@@ -45,14 +46,14 @@ const groupFiles = (
             group: Record<string, File[]>, 
             notTopLevelFile: {
                 file: File,
-                fullName: string,
+                name: string,
                 splittedName: string[],
             }) => 
         {
             group[notTopLevelFile.splittedName[0]] = group[notTopLevelFile.splittedName[0]] || [];
             group[notTopLevelFile.splittedName[0]].push({
                 ...notTopLevelFile.file,
-                fullname: notTopLevelFile.file.fullname.replace(`${notTopLevelFile.splittedName[0]}/`, ""),
+                name: notTopLevelFile.file.name.replace(`${notTopLevelFile.splittedName[0]}/`, ""),
             });
             return group;
         }, {});

@@ -20,7 +20,7 @@ export class FilesNextApiGetHandler implements NextApiHandler {
             response.status(200).json(treeView);
         }
         catch(error) {
-            response.status(500).json(error);
+            response.status(500).json({message: (error as Error).message});
         }
     }
 }

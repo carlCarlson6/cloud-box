@@ -24,9 +24,8 @@ class AzureBlobStorage implements FileStorageManager {
         const container = this.blobClient.getContainerClient(containerName);
         await container.createIfNotExists();
 
-        container.uploadBlockBlob(uploadInfo.destinationPath, fs.readFileSync(uploadInfo.sourcePath), uploadInfo.size)
-
-        throw new Error("");
+        var stream = fs.readFileSync(uploadInfo.sourcePath);
+        container.uploadBlockBlob(uploadInfo.destinationPath, stream, uploadInfo.size)
     }
 
     private async listBlobsOnContainer(containerName: string): Promise<File[]> {

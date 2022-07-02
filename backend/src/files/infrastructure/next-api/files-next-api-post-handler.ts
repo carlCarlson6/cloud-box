@@ -2,7 +2,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { NextApiHandler } from "../../../infrastructure/next-api/next-api-handler";
 import formidable, { File } from "formidable";
 import { UseCase } from "../../../common/use-case";
-import { UploadFileCommand, UploadFilesCommand } from "../../upload/UploadFileCommand";
+import { UploadFileCommand, UploadFilesCommand } from "../../upload/upload-file-command";
+
+type ProcessedFiles = Array<[string, File]>;
 
 export class FilesNextApiPostHandler implements NextApiHandler {
     constructor(
@@ -23,14 +25,13 @@ export class FilesNextApiPostHandler implements NextApiHandler {
             throw new Error();
 
         const commands: UploadFileCommand[] = files.map(f => ({
-            destinationPath: `${f[0]}/${f[1].originalFilename}`,
-            sourcePath: `${f[1].filepath}/${f[1].newFilename}`
+            destinationPath: `${f[0]}`,
+            sourcePath: `${f[1].filepath}`,
+            size: f[1].size
         }));
 
-        console.log(commands);
-
         await this.uploadFiles.execute(commands);
+
+        response.status(200).json({});
     }
 }
-
-type ProcessedFiles = Array<[string, File]>;
