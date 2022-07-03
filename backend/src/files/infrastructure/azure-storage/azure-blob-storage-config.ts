@@ -1,7 +1,7 @@
 export type AzureBlobStorageConfig = {
-    azureStorageConnectionString: string;
+    connectionString: string;
 };
 
 export const azureBlobStorageConfig: AzureBlobStorageConfig = {
-    azureStorageConnectionString: process.env.AZURE_STORAGE_CONNSTR!
+    connectionString: process.env.AZURE_STORAGE_CONNSTR!
 }

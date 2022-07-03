@@ -9,27 +9,19 @@ class AzureBlobStorage implements FileStorageManager {
     private readonly blobClient: storageBlob.BlobServiceClient;
 
     constructor(config: AzureBlobStorageConfig) {
-        this.blobClient = storageBlob.BlobServiceClient.fromConnectionString(config.azureStorageConnectionString);
+        this.blobClient = storageBlob.BlobServiceClient.fromConnectionString(config.connectionString);
     }
 
-    upload(userIdentifier: string, uploadInfo: FileUploadInfo): Promise<void> {
-        return this.uploadFileToContainer(userIdentifier, uploadInfo);
-    }
-
-    listAllUserFiles(userIdentifier: string): Promise<File[]> {
-        return this.listBlobsOnContainer(userIdentifier);
-    }
-
-    private async uploadFileToContainer(containerName: string, uploadInfo: FileUploadInfo): Promise<void> {
-        const container = this.blobClient.getContainerClient(containerName);
+    async upload(userIdentifier: string, uploadInfo: FileUploadInfo): Promise<void> {
+        const container = this.blobClient.getContainerClient(userIdentifier);
         await container.createIfNotExists();
 
         var stream = fs.readFileSync(uploadInfo.sourcePath);
-        container.uploadBlockBlob(uploadInfo.destinationPath, stream, uploadInfo.size)
+        container.uploadBlockBlob(uploadInfo.destinationPath, stream, uploadInfo.size);
     }
 
-    private async listBlobsOnContainer(containerName: string): Promise<File[]> {
-        const container = this.blobClient.getContainerClient(containerName);
+    async listAllUserFiles(userIdentifier: string): Promise<File[]> {
+        const container = this.blobClient.getContainerClient(userIdentifier);
 
         const files = [];
         for await (const blob of container.listBlobsFlat()) {

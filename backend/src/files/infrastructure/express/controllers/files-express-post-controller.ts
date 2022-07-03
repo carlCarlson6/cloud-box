@@ -1,17 +1,19 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { NextApiHandler } from "../../../infrastructure/next-api/next-api-handler";
+import { Request, Response } from "express";
 import formidable, { File } from "formidable";
-import { UseCase } from "../../../common/use-case";
-import { UploadFileCommand, UploadFilesCommand } from "../../upload/upload-file-command";
+import { UseCase } from "../../../../common/use-case";
+import { ExpressRouteController } from "../../../../infrastructure/express/express-route-controller";
+import { UploadFileCommand, UploadFilesCommand } from "../../../upload/upload-file-command";
+import filesUseCases from "../../bootstrap-files-use-cases";
 
 type ProcessedFiles = Array<[string, File]>;
 
-export class FilesNextApiPostHandler implements NextApiHandler {
+class FilesExpressPostController implements ExpressRouteController {
     constructor(
         private readonly uploadFiles: UseCase<UploadFilesCommand, Promise<void>>
     ) {}
-
-    async handle(request: NextApiRequest, response: NextApiResponse<any>): Promise<void> {
+    
+    // TODO - handle failure
+    async handle(request: Request, response: Response): Promise<void> {
         const files = await new Promise<ProcessedFiles | undefined>((resolve, reject) => {
             const files: ProcessedFiles = [];
             new formidable.IncomingForm()
@@ -21,8 +23,7 @@ export class FilesNextApiPostHandler implements NextApiHandler {
                 .parse(request);
         });
 
-        if (!files)
-            throw new Error();
+        if (!files) throw new Error(); // TODO - create proper error
 
         const commands: UploadFileCommand[] = files.map(f => ({
             destinationPath: `${f[0]}`,
@@ -35,3 +36,5 @@ export class FilesNextApiPostHandler implements NextApiHandler {
         response.status(200).json({});
     }
 }
+
+export const filesExpressPostController = new FilesExpressPostController(filesUseCases.uploadFiles);
