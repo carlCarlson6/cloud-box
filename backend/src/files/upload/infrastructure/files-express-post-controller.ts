@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
 import formidable, { File } from "formidable";
-import { UseCase } from "../../../../common/use-case";
-import { ExpressRouteController } from "../../../../infrastructure/express/express-route-controller";
-import { UploadFileCommand, UploadFilesCommand } from "../../../upload/upload-file-command";
-import filesUseCases from "../../bootstrap-files-use-cases";
+import { ExpressRouteController } from "../../../infrastructure/express/express-route-controller";
+import { UploadFileCommand } from "../upload-file-command";
+import { FilesUploader, UploadFiles } from "../upload-files";
+import { azureBlobStorage } from "../../infrastructure/azure-blob-storage";
 
 type ProcessedFiles = Array<[string, File]>;
 
 class FilesExpressPostController implements ExpressRouteController {
     constructor(
-        private readonly uploadFiles: UseCase<UploadFilesCommand, Promise<void>>
+        private readonly uploadFiles: FilesUploader
     ) {}
     
     // TODO - handle failure
@@ -37,4 +37,4 @@ class FilesExpressPostController implements ExpressRouteController {
     }
 }
 
-export const filesExpressPostController = new FilesExpressPostController(filesUseCases.uploadFiles);
+export const filesExpressPostController = new FilesExpressPostController(new UploadFiles(azureBlobStorage));

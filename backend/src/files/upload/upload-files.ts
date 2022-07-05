@@ -2,7 +2,9 @@ import { UseCase } from "../../common/use-case";
 import { FileStorageManager } from "../file-storage-manager";
 import { UploadFilesCommand } from "./upload-file-command";
 
-export class UploadFiles implements UseCase<UploadFilesCommand, Promise<void>> {
+export type FilesUploader = UseCase<UploadFilesCommand, Promise<void>>;
+
+export class UploadFiles implements FilesUploader {
     constructor(
         private readonly storage: FileStorageManager,
     ) {}

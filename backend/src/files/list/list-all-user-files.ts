@@ -1,7 +1,10 @@
-import { UseCase } from "../../../common/use-case";
-import { FileStorageManager } from "../../file-storage-manager";
-import { buildTreeView, TreeView } from "../../tree-view";
+import { UseCase } from "../../common/use-case";
+import { FileStorageManager } from "../file-storage-manager";
+import { buildTreeView, TreeView } from "./tree-view";
 import { ListAllUserFilesQuery } from "./list-all-user-files-query";
+
+// TODO - improve naming
+export type ListAllUserFilesUseCase = UseCase<ListAllUserFilesQuery, Promise<TreeView>>;
 
 export class ListAllUserFiles implements UseCase<ListAllUserFilesQuery, Promise<TreeView>> {
     constructor(

@@ -1,5 +1,5 @@
-import { File } from "./file";
-import { Size } from "./size";
+import { File } from "../file";
+import { Size } from "../size";
 
 export interface TreeView {
     elements: Record<string, File[] | TreeView>

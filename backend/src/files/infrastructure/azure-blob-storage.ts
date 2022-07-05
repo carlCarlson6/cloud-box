@@ -1,14 +1,14 @@
 import * as storageBlob from "@azure/storage-blob";
-import { FileStorageManager, FileUploadInfo } from "../../file-storage-manager";
-import { azureBlobStorageConfig, AzureBlobStorageConfig } from "./azure-blob-storage-config";
-import { File } from "../../file";
-import mapBlobToFile from "./map-blob-to-file";
+import { FileStorageManager, FileUploadInfo } from "../file-storage-manager";
+import { azureStorageConfig, AzureStorageConfig } from "../../infrastructure/azure-storage/azure-storage-config";
+import { File } from "../file";
+import mapBlobToFile from "../list/infrastructure/map-blob-to-file";
 import fs from 'fs';
 
 class AzureBlobStorage implements FileStorageManager {
     private readonly blobClient: storageBlob.BlobServiceClient;
 
-    constructor(config: AzureBlobStorageConfig) {
+    constructor(config: AzureStorageConfig) {
         this.blobClient = storageBlob.BlobServiceClient.fromConnectionString(config.connectionString);
     }
 
@@ -32,4 +32,4 @@ class AzureBlobStorage implements FileStorageManager {
     }
 }
 
-export const azureBlobStorage = new AzureBlobStorage(azureBlobStorageConfig);
+export const azureBlobStorage = new AzureBlobStorage(azureStorageConfig);

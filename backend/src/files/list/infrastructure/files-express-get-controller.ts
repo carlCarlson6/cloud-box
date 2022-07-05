@@ -1,13 +1,11 @@
 import { Request, Response } from "express";
-import { UseCase } from "../../../../common/use-case";
-import { ExpressRouteController } from "../../../../infrastructure/express/express-route-controller";
-import { ListAllUserFilesQuery } from "../../../get/list/list-all-user-files-query";
-import { TreeView } from "../../../tree-view";
-import filesUseCases from "../../bootstrap-files-use-cases";
+import { ExpressRouteController } from "../../../infrastructure/express/express-route-controller";
+import { azureBlobStorage } from "../../infrastructure/azure-blob-storage";
+import { ListAllUserFiles, ListAllUserFilesUseCase } from "../list-all-user-files";
 
 class FilesExpressGetController implements ExpressRouteController {
     constructor(
-        private readonly useCase: UseCase<ListAllUserFilesQuery, Promise<TreeView>>,
+        private readonly useCase: ListAllUserFilesUseCase,
     ) {}
 
     async handle(request: Request, response: Response): Promise<void> {
@@ -26,4 +24,4 @@ class FilesExpressGetController implements ExpressRouteController {
     }
 }
 
-export const filesExpressGetController = new FilesExpressGetController(filesUseCases.listAllUserFiles);
+export const filesExpressGetController = new FilesExpressGetController(new ListAllUserFiles(azureBlobStorage));
