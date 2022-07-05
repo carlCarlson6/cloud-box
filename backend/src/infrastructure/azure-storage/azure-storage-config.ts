@@ -1,3 +1,7 @@
+import { config as readEnv} from "dotenv";
+
+readEnv()
+
 export type AzureStorageConfig = {
     connectionString: string;
 };
