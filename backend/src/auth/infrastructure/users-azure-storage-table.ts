@@ -28,8 +28,6 @@ class UsersAzureStorageTable implements UsersRepository {
 
     async get(email: string): Promise<User|null> {
         const user = await this.usersTable.getEntity<Record<string, string>>("APP_USERS", email);
-        
-
         return {
             id: user["id"],
             email: user.rowKey!,
@@ -39,3 +37,11 @@ class UsersAzureStorageTable implements UsersRepository {
 }
 
 export const usersAzureStorageTable = new UsersAzureStorageTable(azureStorageConfig);
+
+export const bootstrapUsersTable = async (): Promise<void> => {
+    const table = TableClient.fromConnectionString(azureStorageConfig.connectionString, "USERS", {
+        allowInsecureConnection: true
+    });
+
+    table.createTable();
+}

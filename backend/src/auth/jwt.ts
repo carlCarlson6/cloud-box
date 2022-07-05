@@ -1,5 +1,6 @@
 import { UserContext } from "../common/user-context";
 import jwt from "jsonwebtoken";
+import { jwtConfig } from "./infrastructure/jwt-config";
 
 export class Jwt {
     private constructor(
@@ -7,7 +8,7 @@ export class Jwt {
     ) {}
 
     static Sign(user: UserContext): Jwt {
-        const token = jwt.sign(user, process.env.JWT_SECRET!, {expiresIn: process.env.JWT_EXPERIS_IN!});
+        const token = jwt.sign(user, jwtConfig.secret, {expiresIn: jwtConfig.expiresIn});
         return new Jwt(token);
     }
 }
