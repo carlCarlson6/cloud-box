@@ -1,14 +1,7 @@
-import NavBar from './components/NavBar';
-import { Container } from "@chakra-ui/react";
-import FilesArea from './pages/FilesArea';
+import AuthenticationForm from "./auth/AuthenticationForm";
 
 const App = () => <>
-	<Container id='container-app' maxW='container.sm'>
-		<NavBar />
-		
-		<FilesArea />
-
-	</Container>
+    <AuthenticationForm/>
 </>
 
 export default App;
