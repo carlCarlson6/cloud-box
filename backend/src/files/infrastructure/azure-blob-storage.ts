@@ -5,7 +5,7 @@ import { File } from "../file";
 import mapBlobToFile from "../list/infrastructure/map-blob-to-file";
 import fs from 'fs';
 
-class AzureBlobStorage implements FileStorageManager {
+export class AzureBlobStorage implements FileStorageManager {
     private readonly blobClient: storageBlob.BlobServiceClient;
 
     constructor(config: AzureStorageConfig) {

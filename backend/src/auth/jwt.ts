@@ -8,7 +8,18 @@ export class Jwt {
     ) {}
 
     static Sign(user: UserContext): Jwt {
-        const token = jwt.sign(user, jwtConfig.secret, {expiresIn: jwtConfig.expiresIn});
+        const token = jwt.sign(user, jwtConfig.secret, { expiresIn: jwtConfig.expiresIn });
         return new Jwt(token);
+    }
+
+    static Decode(token: string): UserContext {
+        token = token.replace("Bearer ", "");
+
+        var decoded = jwt.decode(token, {json: true});
+        if (!decoded) {
+            throw new Error("TODO create proper error");
+        }
+
+        return decoded.payload;
     }
 }

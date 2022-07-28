@@ -4,7 +4,7 @@ import { azureStorageConfig, AzureStorageConfig } from "../../infrastructure/azu
 import { User } from "../user";
 import { UsersRepository } from "../users-repository";
 
-class UsersAzureStorageTable implements UsersRepository {
+export class UsersAzureStorageTable implements UsersRepository {
     private readonly usersTable: TableClient;
 
     constructor(config: AzureStorageConfig) {
@@ -35,8 +35,6 @@ class UsersAzureStorageTable implements UsersRepository {
         };
     }
 }
-
-export const usersAzureStorageTable = new UsersAzureStorageTable(azureStorageConfig);
 
 export const bootstrapUsersTable = async (): Promise<void> => {
     const table = TableClient.fromConnectionString(azureStorageConfig.connectionString, "USERS", {

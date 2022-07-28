@@ -4,7 +4,7 @@ export type FileUploadInfo = {
     sourcePath: string;
     destinationPath: string;
     size: number;
-};
+}
 
 export interface FileStorageManager {
     listAllUserFiles(userIdentifier: string): Promise<File[]>

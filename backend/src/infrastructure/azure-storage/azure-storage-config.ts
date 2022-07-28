@@ -9,3 +9,7 @@ export type AzureStorageConfig = {
 export const azureStorageConfig: AzureStorageConfig = {
     connectionString: process.env.AZURE_STORAGE_CONNSTR!
 }
+
+export const getAzureStoreConfig = (): AzureStorageConfig => ({
+    connectionString: process.env.AZURE_STORAGE_CONNSTR!
+});

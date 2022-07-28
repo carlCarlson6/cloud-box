@@ -2,14 +2,14 @@ import { Request, Response } from "express";
 import { ParamsDictionary } from "express-serve-static-core";
 import { ParsedQs } from "qs";
 import { ExpressRouteController } from "../../../infrastructure/express/express-route-controller";
-import { LoginCommand, LoginUserUseCase } from "../login-user";
+import { SigUpUseCase, SignUpAppUserCommand } from "../sign-up-app-user";
 
-export class AuthExpressPostController implements ExpressRouteController {
+export class AuthExpressPutController implements ExpressRouteController {
     constructor(
-        private readonly useCase: LoginUserUseCase,
+        private readonly useCase: SigUpUseCase,
     ) {}
 
-    async handle(request: Request<ParamsDictionary, any, LoginCommand, ParsedQs, Record<string, any>>, response: Response): Promise<void> {
+    async handle(request: Request<ParamsDictionary, any, SignUpAppUserCommand, ParsedQs, Record<string, any>>, response: Response): Promise<void> {
         try {
             const jwt = await this.useCase.execute(request.body);
             response.status(200).json({

@@ -8,7 +8,6 @@ export type LoginCommand = {
     password: string
 }
 
-// TODO - improve naming
 export type LoginUserUseCase = UseCase<LoginCommand, Promise<Jwt>>
 
 export class LoginUser implements LoginUserUseCase {
@@ -19,7 +18,7 @@ export class LoginUser implements LoginUserUseCase {
     async execute({email, password}: LoginCommand): Promise<Jwt> {
         const user = await this.usersRepository.get(email);
 
-        if (!user) throw new Error("user not found"); // TODO - create proper error
+        if (!user) throw new Error("user not found");
         if (await validateCredentials(user, {email, password}))
             throw new Error("invalid user credentials");
 
